@@ -44,11 +44,10 @@ export function initLoaderBtn() {
 
 function runScroll() {
   let rafId
-  let lastTime  = null
-  let stopped   = false
-  const SPEED   = 240
+  let lastTime = null
+  let stopped  = false
+  const SPEED  = 60
 
-  // Останавливаем по касанию
   const stop = () => {
     stopped = true
     cancelAnimationFrame(rafId)
@@ -62,11 +61,14 @@ function runScroll() {
   function step(timestamp) {
     if (stopped) return
 
-    // Сбрасываем lastTime если пауза больше 100ms — убирает рывки
-    if (lastTime && timestamp - lastTime > 100) lastTime = timestamp
-    if (!lastTime) lastTime = timestamp
+    if (!lastTime) {
+      lastTime = timestamp
+      rafId = requestAnimationFrame(step)
+      return
+    }
 
-    const delta = timestamp - lastTime
+    // Ограничиваем delta сверху — не больше одного кадра при 30fps
+    const delta = Math.min(timestamp - lastTime, 32)
     lastTime = timestamp
 
     window.scrollBy(0, SPEED * delta / 1000)
@@ -74,10 +76,7 @@ function runScroll() {
     const atBottom =
       window.scrollY + window.innerHeight >= document.body.scrollHeight - 2
 
-    if (atBottom) {
-      cancelAnimationFrame(rafId)
-      return
-    }
+    if (atBottom) return
 
     rafId = requestAnimationFrame(step)
   }
