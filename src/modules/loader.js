@@ -41,7 +41,7 @@ export function initLoaderBtn() {
 function runScroll() {
   let rafId
   let lastTime = null
-  const SPEED  = 240
+  const SPEED  = 60
 
   const stop = () => {
     cancelAnimationFrame(rafId)
