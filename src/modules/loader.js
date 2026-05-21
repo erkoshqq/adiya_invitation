@@ -46,7 +46,7 @@ function runScroll() {
   let rafId
   let lastTime  = null
   let stopped   = false
-  const SPEED   = 60
+  const SPEED   = 240
 
   // Останавливаем по касанию
   const stop = () => {
