@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Қыз Ұзату — Адия · 22 тамыз 2026</title>
+  <meta name="description" content="Адияның ұзату тойына шақырамыз · 22 августа 2026 · Қарағанды" />
+  <meta property="og:title" content="Қыз Ұзату — Адия" />
+  <meta property="og:description" content="22 августа 2026 · Қарағанды · 13:00" />
+  <meta property="og:image" content="/assets/adiya.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&family=Lora:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cur"></div>
+  <div id="cur-r"></div>
+
+  <!-- Floating particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Loading screen -->
+  <div id="loader">
+    <div class="loader-name">Адия</div>
+    <div class="loader-bar"></div>
+    <div class="loader-sub">Қыз Ұзату · 2026</div>
+    <button class="loader-btn" id="loader-btn">
+      <span class="loader-btn-text">Открыть приглашение</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Language switcher -->
+  <nav id="lang-sw" aria-label="Переключатель языка">
+    <button class="lang-btn active" data-lang="ru">РУС</button>
+    <button class="lang-btn"        data-lang="kz">ҚАЗ</button>
+  </nav>
+
+  <!-- Music button -->
+  <button id="music-btn" aria-label="Музыка вкл/выкл">
+    <div class="vinyl-ring"></div>
+    <svg id="ic-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="ic-pause" viewBox="0 0 24 24" hidden><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  </button>
+  <audio id="bg-audio" loop preload="auto">
+    <source src="/assets/song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow" data-ru="Приглашение" data-kz="Шақыру">Приглашение</p>
+      <p class="hero-event"   data-ru="Қыз Ұзату"   data-kz="Қыз Ұзату">Қыз Ұзату</p>
+      <h1 class="hero-name">Адия</h1>
+
+      <!-- Countdown -->
+      <div class="hero-cd" id="countdown">
+        <div class="cd-u"><span class="cd-n" id="cd-d">00</span><span class="cd-l" data-ru="Дней"   data-kz="Күн">Дней</span></div>
+        <span class="cd-dot">·</span>
+        <div class="cd-u"><span class="cd-n" id="cd-h">00</span><span class="cd-l" data-ru="Часов"  data-kz="Сағат">Часов</span></div>
+        <span class="cd-dot">·</span>
+        <div class="cd-u"><span class="cd-n" id="cd-m">00</span><span class="cd-l" data-ru="Минут"  data-kz="Минут">Минут</span></div>
+        <span class="cd-dot">·</span>
+        <div class="cd-u"><span class="cd-n" id="cd-s">00</span><span class="cd-l" data-ru="Секунд" data-kz="Секунд">Секунд</span></div>
+      </div>
+
+      <p class="hero-date-line">
+        <span data-ru="22 августа 2026"  data-kz="22 тамыз 2026">22 августа 2026</span>
+        &nbsp;·&nbsp;
+        <span data-ru="Начало в 13:00"   data-kz="Басталуы 13:00">Начало в 13:00</span>
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#rsvp-sec" class="btn-solid">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          <span data-ru="Подтвердить присутствие" data-kz="Қатысуды растау">Подтвердить присутствие</span>
+        </a>
+        <a href="#location" class="btn-glass">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-ru="Открыть карту" data-kz="Картаны ашу">Открыть карту</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <img class="hero-photo" src="/assets/adiya.jpg" alt="Адия" />
+        <div class="photo-frame"></div>
+      </div>
+    </div>
+
+    <div class="ornament-strip" aria-hidden="true">
+      <svg viewBox="0 0 1200 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <pattern id="op" x="0" y="0" width="80" height="50" patternUnits="userSpaceOnUse">
+          <path d="M0 25 Q20 8 40 25 Q60 42 80 25" stroke="#6E879C" stroke-width="1.5" fill="none"/>
+          <circle cx="40" cy="25" r="2.8" fill="none" stroke="#D4A898" stroke-width="1"/>
+          <path d="M20 25 L20 14 M60 25 L60 14" stroke="#6E879C" stroke-width="1" opacity=".4"/>
+        </pattern>
+        <rect width="1200" height="50" fill="url(#op)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════ INVITATION ═══════════════ -->
+  <section id="invite" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Приглашение" data-kz="Шақыру">Приглашение</span>
+    <div class="invite-card reveal r-delay-1">
+      <div class="invite-orn" aria-hidden="true">❧</div>
+      <p class="invite-text" id="itext-ru">
+        Дорогие родные и друзья!<br />
+        С огромной радостью приглашаем вас разделить вместе с нами<br />
+        особенный день — <strong>Қыз Ұзату нашей любимой Адии.</strong>
+      </p>
+      <p class="invite-text" id="itext-kz" hidden>
+        Қадірлі ағайын-туыс, бауырлар мен достар!<br />
+        Сіздерді аяулы қызымыз <strong>Адияның ұзату тойына</strong><br />
+        арналған ақ дастарханымыздың қадірлі қонағы болуға шақырамыз.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOSTS ═══════════════ -->
+  <section id="hosts" class="sec-pad sec-center">
+    <div class="reveal">
+      <span class="sec-label" data-ru="Той иелері" data-kz="Той иелері">Той иелері</span>
+      <div class="hosts-names">Берік <span class="hosts-amp">&amp;</span> Диана</div>
+    </div>
+    <div class="orn-div reveal r-delay-1" aria-hidden="true">
+      <span class="orn-sym">✦ ✦ ✦</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════ DATE ═══════════════ -->
+  <section id="date-block" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Дата и время" data-kz="Күні мен уақыты">Дата и время</span>
+
+    <div class="cal-wrap reveal r-delay-1">
+      <!-- Шапка календаря -->
+      <div class="cal-header">
+        <span class="cal-month" data-ru="Август 2026" data-kz="Тамыз 2026">Август 2026</span>
+      </div>
+
+      <!-- Дни недели -->
+      <div class="cal-weekdays">
+        <span data-ru="Пн" data-kz="Дс">Пн</span>
+        <span data-ru="Вт" data-kz="Сс">Вт</span>
+        <span data-ru="Ср" data-kz="Ср">Ср</span>
+        <span data-ru="Чт" data-kz="Бс">Чт</span>
+        <span data-ru="Пт" data-kz="Жм">Пт</span>
+        <span data-ru="Сб" data-kz="Сн">Сб</span>
+        <span data-ru="Вс" data-kz="Жк">Вс</span>
+      </div>
+
+      <!-- Сетка дат — август 2026 начинается в субботу (6-я колонка) -->
+      <div class="cal-grid">
+        <!-- Пустые ячейки до 1-го (Пн–Пт = 5 пустых) -->
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <div class="cal-day empty"></div>
+        <!-- 1 августа — суббота -->
+        <div class="cal-day">1</div>
+        <div class="cal-day">2</div>
+        <div class="cal-day">3</div>
+        <div class="cal-day">4</div>
+        <div class="cal-day">5</div>
+        <div class="cal-day">6</div>
+        <div class="cal-day">7</div>
+        <div class="cal-day">8</div>
+        <div class="cal-day">9</div>
+        <div class="cal-day">10</div>
+        <div class="cal-day">11</div>
+        <div class="cal-day">12</div>
+        <div class="cal-day">13</div>
+        <div class="cal-day">14</div>
+        <div class="cal-day">15</div>
+        <div class="cal-day">16</div>
+        <div class="cal-day">17</div>
+        <div class="cal-day">18</div>
+        <div class="cal-day">19</div>
+        <div class="cal-day">20</div>
+        <div class="cal-day">21</div>
+        <div class="cal-day marked">
+          22
+          <span class="cal-mark-dot"></span>
+        </div>
+        <div class="cal-day">23</div>
+        <div class="cal-day">24</div>
+        <div class="cal-day">25</div>
+        <div class="cal-day">26</div>
+        <div class="cal-day">27</div>
+        <div class="cal-day">28</div>
+        <div class="cal-day">29</div>
+        <div class="cal-day">30</div>
+        <div class="cal-day">31</div>
+      </div>
+
+      <!-- Подпись под календарём -->
+      <div class="cal-footer">
+        <span class="cal-footer-day" data-ru="суббота" data-kz="сенбі">суббота</span>
+        <span class="cal-footer-sep">·</span>
+        <span class="cal-footer-time" data-ru="Начало в 13:00" data-kz="Басталуы 13:00">Начало в 13:00</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ LOCATION ═══════════════ -->
+  <section id="location" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Место проведения" data-kz="Өткізілетін орны">Место проведения</span>
+    <h2 class="sec-title reveal r-delay-1"><em>Қарағанды</em></h2>
+    <p class="loc-city reveal r-delay-2" data-ru="Улица Кажибекова, строение 1" data-kz="Қажыбеков көшесі, 1 ғимарат">Улица Кажибекова, строение 1</p>
+
+    <div class="map-wrap reveal r-delay-2">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d155456!2d73.0856!3d49.8047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42435b4f36d15555%3A0x7e8f0e7f88888888!2z0JrQsNGA0LDQs9Cw0L3QtNCw!5e0!3m2!1sru!2skz!4v1690000000000"
+        allowfullscreen loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Карта — Қарағанды"
+      ></iframe>
+    </div>
+
+    <a
+      href="https://maps.google.com/?q=Karaganda,Kazakhstan"
+      target="_blank" rel="noopener"
+      class="btn-glass reveal r-delay-3"
+      style="display:inline-flex; margin-top:22px"
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span data-ru="Построить маршрут" data-kz="Бағыт құру">Построить маршрут</span>
+    </a>
+  </section>
+
+  <!-- ═══════════════ GALLERY ═══════════════ -->
+  <section id="gallery-sec" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Галерея" data-kz="Галерея">Галерея</span>
+    <h2 class="sec-title reveal r-delay-1"><em>Адия</em></h2>
+
+    <div class="slider-wrap reveal r-delay-2">
+      <!-- Slides — добавляйте/убирайте <div class="slide"> по числу фото -->
+      <div class="slider-track" id="slider-track">
+        <div class="slide"><img src="/assets/g1.jpeg" alt="Адия — фото 1" /></div>
+        <div class="slide"><img src="/assets/g2.jpeg" alt="Адия — фото 2" /></div>
+        <div class="slide"><img src="/assets/g3.jpeg" alt="Адия — фото 3" /></div>
+        <div class="slide"><img src="/assets/g4.jpeg" alt="Адия — фото 4" /></div>
+      </div>
+
+      <!-- Prev / Next -->
+      <button class="slider-arrow slider-prev" id="slider-prev" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="slider-arrow slider-next" id="slider-next" aria-label="Вперёд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <!-- Dot indicators -->
+      <div class="slider-dots" id="slider-dots"></div>
+
+      <!-- Progress bar -->
+      <div class="slider-progress"><div class="slider-progress-bar" id="slider-progress-bar"></div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WISHES ═══════════════ -->
+  <section id="wishes-sec" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Пожелания" data-kz="Тілектер">Пожелания</span>
+    <h2 class="sec-title reveal r-delay-1" data-ru="Тёплые слова <em>Адие</em>" data-kz="Адияға <em>тілектер</em>">
+      Тёплые слова <em>Адие</em>
+    </h2>
+    <p class="sec-sub reveal r-delay-2"
+      data-ru="Оставьте пожелание — оно появится здесь"
+      data-kz="Тілегіңізді қалдырыңыз — ол осында пайда болады">
+      Оставьте пожелание — оно появится здесь
+    </p>
+
+    <div class="wish-input-wrap reveal r-delay-2">
+      <input
+        type="text" id="wish-name"
+        placeholder="Ваше имя"
+        data-ru-placeholder="Ваше имя"
+        data-kz-placeholder="Атыңыз"
+      />
+      <textarea
+        id="wish-text"
+        placeholder="Напишите пожелание Адие..."
+        data-ru-placeholder="Напишите пожелание Адие..."
+        data-kz-placeholder="Адияға тілегіңізді жазыңыз..."
+      ></textarea>
+      <button class="btn-solid" id="wish-submit">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span data-ru="Отправить пожелание" data-kz="Тілек жіберу">Отправить пожелание</span>
+      </button>
+    </div>
+
+    <div class="wishes-feed" id="wishes-feed"></div>
+  </section>
+
+  <!-- ═══════════════ RSVP ═══════════════ -->
+  <section id="rsvp-sec" class="sec-pad sec-center">
+    <span class="sec-label reveal" data-ru="Подтверждение" data-kz="Растау">Подтверждение</span>
+    <h2 class="sec-title reveal r-delay-1"
+      data-ru="Будете <em>с нами?</em>"
+      data-kz="Бізбен <em>бірге боласыз ба?</em>">
+      Будете <em>с нами?</em>
+    </h2>
+    <p class="sec-sub reveal r-delay-2"
+      data-ru="Просим подтвердить присутствие до 15 августа 2026"
+      data-kz="2026 жылдың 15 тамызына дейін растауыңызды сұраймыз">
+      Просим подтвердить присутствие до 15 августа 2026
+    </p>
+
+    <div class="rsvp-form reveal r-delay-2">
+      <form id="rsvp-form" novalidate>
+        <div class="fg" id="fg-name">
+          <label data-ru="Имя и фамилия" data-kz="Аты-жөні">Имя и фамилия</label>
+          <input type="text" id="f-name" autocomplete="name"
+            placeholder="Введите ваше имя"
+            data-ru-placeholder="Введите ваше имя"
+            data-kz-placeholder="Атыңызды енгізіңіз" />
+          <div class="ferr" data-ru="Введите ваше имя" data-kz="Атыңызды енгізіңіз">Введите ваше имя</div>
+        </div>
+
+        <div class="fg" id="fg-phone">
+          <label data-ru="Номер телефона" data-kz="Телефон нөмірі">Номер телефона</label>
+          <input type="tel" id="f-phone" autocomplete="tel"
+            placeholder="+7 (___) ___-__-__"
+            data-ru-placeholder="+7 (___) ___-__-__"
+            data-kz-placeholder="+7 (___) ___-__-__" />
+          <div class="ferr" data-ru="Введите номер телефона" data-kz="Телефон нөмірін енгізіңіз">Введите номер телефона</div>
+        </div>
+
+        <div class="fg">
+          <label data-ru="Количество гостей" data-kz="Қонақтар саны">Количество гостей</label>
+          <select id="f-guests">
+            <option value="1" data-ru="1 человек"    data-kz="1 адам">1 человек</option>
+            <option value="2" data-ru="2 человека"   data-kz="2 адам">2 человека</option>
+            <option value="3" data-ru="3 и более"    data-kz="3 және одан көп">3 и более</option>
+          </select>
+        </div>
+
+        <div class="fg" id="fg-att">
+          <label data-ru="Ваш ответ" data-kz="Жауабыңыз">Ваш ответ</label>
+          <div class="choices" role="group" aria-label="Варианты ответа">
+            <button type="button" class="choice" data-val="coming">
+              <span data-ru=" Приду!"    data-kz=" Келемін!"> Приду!</span>
+            </button>
+            <button type="button" class="choice" data-val="pair">
+              <span data-ru=" С парой"   data-kz=" Жұппен"> С парой</span>
+            </button>
+            <button type="button" class="choice" data-val="no">
+              <span data-ru=" Не смогу"  data-kz=" Келе алмаймын"> Не смогу</span>
+            </button>
+          </div>
+          <div class="ferr" data-ru="Выберите вариант" data-kz="Опцияны таңдаңыз">Выберите вариант</div>
+        </div>
+
+        <button type="submit" class="btn-rsvp" id="sub-btn">
+          <span data-ru="Отправить ответ" data-kz="Жауап жіберу">Отправить ответ</span>
+        </button>
+      </form>
+
+      <div id="rsvp-ok" hidden>
+        <div class="ok-icon">🌸</div>
+        <h3 id="ok-ttl">Рақмет!</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    <div class="reveal">
+      <p class="footer-phrase" id="fp1">Будем счастливы разделить этот день вместе с вами.</p>
+      <div class="orn-div" style="max-width:240px;margin:26px auto" aria-hidden="true">
+        <span class="orn-sym">✦</span>
+      </div>
+      <p class="footer-sig">Адия · 22.08.2026 · Қарағанды</p>
+    </div>
+
+    <div class="footer-ornament" aria-hidden="true">
+      <svg viewBox="0 0 1200 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <pattern id="fp" x="0" y="0" width="60" height="36" patternUnits="userSpaceOnUse">
+          <path d="M0 18 Q15 4 30 18 Q45 32 60 18" stroke="#6E879C" stroke-width="1.2" fill="none"/>
+          <circle cx="30" cy="18" r="2.2" fill="none" stroke="#D4A898" stroke-width="1"/>
+        </pattern>
+        <rect width="1200" height="36" fill="url(#fp)"/>
+      </svg>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
