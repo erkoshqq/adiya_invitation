@@ -2,46 +2,61 @@
 
 import { getLang } from './lang.js'
 
-// ── Replace with your deployed Google Apps Script URL ──────────────────────
-// How to get this URL:
-//  1. Open script.google.com → New project → paste the doPost() code below
-//  2. Deploy → New deployment → Web App → Execute as: Me → Anyone
-//  3. Copy the URL and paste it here
-const SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'
-
-// Google Apps Script code (paste into your Apps Script project):
-//
-// function doPost(e) {
-//   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
-//   const data  = JSON.parse(e.postData.contents)
-//   sheet.appendRow([
-//     data.timestamp,
-//     data.name,
-//     data.phone,
-//     data.guests,
-//     data.attendance,
-//   ])
-//   return ContentService
-//     .createTextOutput(JSON.stringify({ ok: true }))
-//     .setMimeType(ContentService.MimeType.JSON)
-// }
-// ──────────────────────────────────────────────────────────────────────────
+const SHEET_URL = import.meta.env.VITE_SHEET_URL
 
 const ATT_LABELS = {
-  ru: { coming: 'Приду',  pair: 'С парой', no: 'Не смогу' },
-  kz: { coming: 'Келемін', pair: 'Жұппен', no: 'Келе алмаймын' },
+  ru: { coming: 'Приду',    pair: 'С парой',  no: 'Не смогу'        },
+  kz: { coming: 'Келемін', pair: 'Жұппен',   no: 'Келе алмаймын'  },
 }
 
 let selectedAtt = ''
 
-export function initRsvp() {
-  const form    = document.getElementById('rsvp-form')
-  const okDiv   = document.getElementById('rsvp-ok')
-  const subBtn  = document.getElementById('sub-btn')
+async function fetchRsvpCount() {
+  try {
+    const res  = await fetch(`${SHEET_URL}?sheet=rsvp`)
+    const data = await res.json()
+    // Считаем только тех кто придёт
+    return data.filter(r =>
+      r.attendance && !r.attendance.match(/алмаймын|Не смогу/i)
+    ).length
+  } catch {
+    return null
+  }
+}
 
+function animateCount(el, target) {
+  const start    = 0
+  const duration = 1200
+  const startTime = performance.now()
+
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1)
+    // Ease out
+    const value = Math.round(start + (target - start) * (1 - Math.pow(1 - progress, 3)))
+    el.textContent = value
+    if (progress < 1) requestAnimationFrame(step)
+  }
+
+  requestAnimationFrame(step)
+}
+
+function initCounter() {
+  const numEl = document.getElementById('rsvp-count')
+  if (!numEl) return
+
+  fetchRsvpCount().then(count => {
+    if (count === null) return
+    animateCount(numEl, count)
+  })
+}
+
+export function initRsvp() {
+  const form   = document.getElementById('rsvp-form')
+  const okDiv  = document.getElementById('rsvp-ok')
+  const subBtn = document.getElementById('sub-btn')
   if (!form) return
 
-  // Choice buttons
+  // Выбор варианта
   document.querySelectorAll('.choice').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.choice').forEach(b => b.classList.remove('sel'))
@@ -51,29 +66,20 @@ export function initRsvp() {
     })
   })
 
-  // Clear error on input
-  const clearErr = (fieldId, fgId) => {
-    const el = document.getElementById(fieldId)
-    if (el) el.addEventListener('input', () => {
-      document.getElementById(fgId)?.classList.remove('err')
-    })
-  }
-  clearErr('f-name',  'fg-name')
-  clearErr('f-phone', 'fg-phone')
+  document.getElementById('f-name')?.addEventListener('input', () => {
+    document.getElementById('fg-name').classList.remove('err')
+  })
 
   form.addEventListener('submit', async e => {
     e.preventDefault()
 
-    const name  = document.getElementById('f-name').value.trim()
-    const phone = document.getElementById('f-phone').value.trim()
-    const lang  = getLang()
-    let valid   = true
+    const name = document.getElementById('f-name').value.trim()
+    const lang = getLang()
+    let valid  = true
 
     document.getElementById('fg-name').classList.toggle('err', !name)
-    document.getElementById('fg-phone').classList.toggle('err', !phone)
     document.getElementById('fg-att').classList.toggle('err', !selectedAtt)
-
-    if (!name || !phone || !selectedAtt) valid = false
+    if (!name || !selectedAtt) valid = false
     if (!valid) return
 
     subBtn.disabled = true
@@ -81,40 +87,39 @@ export function initRsvp() {
       lang === 'kz' ? 'Жіберілуде…' : 'Отправляем…'
 
     const payload = {
+      sheet:      'rsvp',
       name,
-      phone,
-      guests:     document.getElementById('f-guests').value,
       attendance: ATT_LABELS[lang][selectedAtt],
       timestamp:  new Date().toISOString(),
     }
 
     try {
-      // ── Send to Google Sheets ──────────────────────────────────────
-      // Uncomment after deploying your Apps Script:
-      //
-      // await fetch(SHEET_URL, {
-      //   method:  'POST',
-      //   mode:    'no-cors',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body:    JSON.stringify(payload),
-      // })
-      // ──────────────────────────────────────────────────────────────
-
-      // Simulate network delay in dev
-      await new Promise(r => setTimeout(r, 800))
+      await fetch(SHEET_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      })
 
       form.hidden  = true
       okDiv.hidden = false
 
+      // После form.hidden = true, okDiv.hidden = false
+      const numEl = document.getElementById('rsvp-count')
+      if (numEl && selectedAtt !== 'no') {
+        const current = parseInt(numEl.textContent) || 0
+        const next    = current + 1
+        animateCount(numEl, next)
+        // Лёгкий bounce
+        numEl.classList.add('bump')
+        setTimeout(() => numEl.classList.remove('bump'), 400)
+      }
+
       document.getElementById('ok-ttl').textContent = 'Рақмет!'
       document.getElementById('ok-msg').textContent =
         selectedAtt === 'no'
-          ? (lang === 'kz'
-              ? `${name}, жауабыңыз үшін рақмет 💌`
-              : `${name}, спасибо за ответ 💌`)
-          : (lang === 'kz'
-              ? `${name}, 22 тамызда күтеміз! 🌸`
-              : `${name}, ждём вас 22 августа! 🌸`)
+          ? (lang === 'kz' ? `${name}, жауабыңыз үшін рақмет 💌` : `${name}, спасибо за ответ 💌`)
+          : (lang === 'kz' ? `${name}, 22 тамызда күтеміз! 🌸`   : `${name}, ждём вас 22 августа! 🌸`)
 
     } catch {
       subBtn.disabled = false
@@ -122,4 +127,5 @@ export function initRsvp() {
         lang === 'kz' ? 'Қайта жіберу' : 'Попробовать снова'
     }
   })
+  initCounter()
 }

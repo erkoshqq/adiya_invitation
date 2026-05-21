@@ -217,21 +217,20 @@
 
   <!-- ═══════════════ LOCATION ═══════════════ -->
   <section id="location" class="sec-pad sec-center">
-    <span class="sec-label reveal" data-ru="Место проведения" data-kz="Өткізілетін орны">Место проведения</span>
+    <span class="sec-label reveal" data-ru="Место проведения" data-kz="Мекенжайы">Место проведения</span>
     <h2 class="sec-title reveal r-delay-1"><em>Қарағанды</em></h2>
-    <p class="loc-city reveal r-delay-2" data-ru="Улица Кажибекова, строение 1" data-kz="Қажыбеков көшесі, 1 ғимарат">Улица Кажибекова, строение 1</p>
+    <p class="loc-city reveal r-delay-2" data-ru="Улица Кажибекова, ст. 1" data-kz="Қажыбеков көшесі, 1 ғимарат">Улица Кажибекова, ст. 1</p>
 
     <div class="map-wrap reveal r-delay-2">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d155456!2d73.0856!3d49.8047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42435b4f36d15555%3A0x7e8f0e7f88888888!2z0JrQsNGA0LDQs9Cw0L3QtNCw!5e0!3m2!1sru!2skz!4v1690000000000"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20611.99023269749!2d73.15328617138701!3d49.776684565119915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4243390370358421%3A0x9a05bc84cb5a572b!2sDiadema!5e0!3m2!1sru!2skz!4v1779357808323!5m2!1sru!2skz"
         allowfullscreen loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        title="Карта — Қарағанды"
       ></iframe>
     </div>
 
     <a
-      href="https://maps.google.com/?q=Karaganda,Kazakhstan"
+      href="https://go.2gis.com/xB26p"
       target="_blank" rel="noopener"
       class="btn-glass reveal r-delay-3"
       style="display:inline-flex; margin-top:22px"
@@ -273,36 +272,57 @@
 
   <!-- ═══════════════ WISHES ═══════════════ -->
   <section id="wishes-sec" class="sec-pad sec-center">
-    <span class="sec-label reveal" data-ru="Пожелания" data-kz="Тілектер">Пожелания</span>
-    <h2 class="sec-title reveal r-delay-1" data-ru="Тёплые слова <em>Адие</em>" data-kz="Адияға <em>тілектер</em>">
-      Тёплые слова <em>Адие</em>
+    <span class="sec-label reveal" data-ru="Пожелания" data-kz="Тілектер">Тілектер</span>
+    <h2 class="sec-title reveal r-delay-1"
+      data-ru="Тёплые слова <em>Адие</em>"
+      data-kz="Адияға <em>тілектер</em>">
+      Адияға <em>тілектер</em>
     </h2>
     <p class="sec-sub reveal r-delay-2"
       data-ru="Оставьте пожелание — оно появится здесь"
       data-kz="Тілегіңізді қалдырыңыз — ол осында пайда болады">
-      Оставьте пожелание — оно появится здесь
+      Тілегіңізді қалдырыңыз — ол осында пайда болады
     </p>
 
-    <div class="wish-input-wrap reveal r-delay-2">
+    <!-- Слайдер пожеланий -->
+    <div class="wishes-slider reveal r-delay-2">
+      <div class="wishes-track" id="wishes-track"></div>
+
+      <button class="wishes-arrow wishes-prev" id="wishes-prev" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <button class="wishes-arrow wishes-next" id="wishes-next" aria-label="Вперёд">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <div class="wishes-dots" id="wishes-dots"></div>
+    </div>
+
+    <!-- Форма добавления -->
+    <div class="wish-input-wrap reveal r-delay-3">
       <input
         type="text" id="wish-name"
-        placeholder="Ваше имя"
+        placeholder="Атыңыз"
         data-ru-placeholder="Ваше имя"
         data-kz-placeholder="Атыңыз"
       />
       <textarea
         id="wish-text"
-        placeholder="Напишите пожелание Адие..."
+        placeholder="Адияға тілегіңізді жазыңыз..."
         data-ru-placeholder="Напишите пожелание Адие..."
         data-kz-placeholder="Адияға тілегіңізді жазыңыз..."
       ></textarea>
       <button class="btn-solid" id="wish-submit">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-        <span data-ru="Отправить пожелание" data-kz="Тілек жіберу">Отправить пожелание</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+        <span data-ru="Отправить пожелание" data-kz="Тілек жіберу">Тілек жіберу</span>
       </button>
     </div>
-
-    <div class="wishes-feed" id="wishes-feed"></div>
   </section>
 
   <!-- ═══════════════ RSVP ═══════════════ -->
@@ -319,59 +339,51 @@
       Просим подтвердить присутствие до 15 августа 2026
     </p>
 
+    <div class="rsvp-counter reveal r-delay-2">
+      <div class="rsvp-counter-num" id="rsvp-count">—</div>
+      <div class="rsvp-counter-label"
+        data-ru="гостей уже подтвердили присутствие"
+        data-kz="қонақ қатысуын растады">
+        қонақ қатысуын растады
+      </div>
+    </div>
+
     <div class="rsvp-form reveal r-delay-2">
       <form id="rsvp-form" novalidate>
         <div class="fg" id="fg-name">
-          <label data-ru="Имя и фамилия" data-kz="Аты-жөні">Имя и фамилия</label>
+          <label data-ru="Имя и фамилия" data-kz="Аты-жөні">Аты-жөні</label>
           <input type="text" id="f-name" autocomplete="name"
-            placeholder="Введите ваше имя"
+            placeholder="Атыңызды енгізіңіз"
             data-ru-placeholder="Введите ваше имя"
             data-kz-placeholder="Атыңызды енгізіңіз" />
-          <div class="ferr" data-ru="Введите ваше имя" data-kz="Атыңызды енгізіңіз">Введите ваше имя</div>
-        </div>
-
-        <div class="fg" id="fg-phone">
-          <label data-ru="Номер телефона" data-kz="Телефон нөмірі">Номер телефона</label>
-          <input type="tel" id="f-phone" autocomplete="tel"
-            placeholder="+7 (___) ___-__-__"
-            data-ru-placeholder="+7 (___) ___-__-__"
-            data-kz-placeholder="+7 (___) ___-__-__" />
-          <div class="ferr" data-ru="Введите номер телефона" data-kz="Телефон нөмірін енгізіңіз">Введите номер телефона</div>
-        </div>
-
-        <div class="fg">
-          <label data-ru="Количество гостей" data-kz="Қонақтар саны">Количество гостей</label>
-          <select id="f-guests">
-            <option value="1" data-ru="1 человек"    data-kz="1 адам">1 человек</option>
-            <option value="2" data-ru="2 человека"   data-kz="2 адам">2 человека</option>
-            <option value="3" data-ru="3 и более"    data-kz="3 және одан көп">3 и более</option>
-          </select>
+          <div class="ferr" data-ru="Введите ваше имя" data-kz="Атыңызды енгізіңіз">Атыңызды енгізіңіз</div>
         </div>
 
         <div class="fg" id="fg-att">
-          <label data-ru="Ваш ответ" data-kz="Жауабыңыз">Ваш ответ</label>
-          <div class="choices" role="group" aria-label="Варианты ответа">
+          <label data-ru="Ваш ответ" data-kz="Жауабыңыз">Жауабыңыз</label>
+          <div class="choices" role="group">
             <button type="button" class="choice" data-val="coming">
-              <span data-ru=" Приду!"    data-kz=" Келемін!"> Приду!</span>
+              <span data-ru="🎉 Приду!" data-kz="🎉 Келемін!">🎉 Келемін!</span>
             </button>
             <button type="button" class="choice" data-val="pair">
-              <span data-ru=" С парой"   data-kz=" Жұппен"> С парой</span>
+              <span data-ru="👫 С парой" data-kz="👫 Жұппен">👫 Жұппен</span>
             </button>
             <button type="button" class="choice" data-val="no">
-              <span data-ru=" Не смогу"  data-kz=" Келе алмаймын"> Не смогу</span>
+              <span data-ru="😔 Не смогу" data-kz="😔 Келе алмаймын">😔 Келе алмаймын</span>
             </button>
           </div>
-          <div class="ferr" data-ru="Выберите вариант" data-kz="Опцияны таңдаңыз">Выберите вариант</div>
+          <div class="ferr" data-ru="Выберите вариант" data-kz="Опцияны таңдаңыз">Опцияны таңдаңыз</div>
         </div>
 
         <button type="submit" class="btn-rsvp" id="sub-btn">
-          <span data-ru="Отправить ответ" data-kz="Жауап жіберу">Отправить ответ</span>
+          <span data-ru="Отправить ответ" data-kz="Жауап жіберу">Жауап жіберу</span>
         </button>
       </form>
 
       <div id="rsvp-ok" hidden>
         <div class="ok-icon">🌸</div>
         <h3 id="ok-ttl">Рақмет!</h3>
+        <p id="ok-msg"></p>
       </div>
     </div>
   </section>

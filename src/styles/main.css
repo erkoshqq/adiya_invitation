@@ -207,13 +207,13 @@ body {
   display: flex; flex-direction: column; gap: 0;
 }
 .hero-eyebrow {
-  font-family: var(--ff-t); font-size: 10px;
+  font-family: var(--ff-t); font-size: 20px;
   letter-spacing: .28em; text-transform: uppercase;
   color: var(--blue); margin-bottom: 18px;
   animation: fadeUp .8s .3s ease both;
 }
 .hero-event {
-  font-family: var(--ff-d); font-size: clamp(13px, 2vw, 17px);
+  font-family: var(--ff-d); font-size: clamp(13px, 2vw, 17px); font-size: 40px;
   font-weight: 300; color: var(--textmid); letter-spacing: .1em;
   margin-bottom: 6px;
   animation: fadeUp .8s .4s ease both;
@@ -234,20 +234,21 @@ body {
 }
 .cd-u    { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .cd-n    { font-family: var(--ff-d); font-size: clamp(28px, 4.5vw, 52px); font-weight: 300; color: var(--text); line-height: 1; min-width: 1.2em; text-align: center; }
-.cd-l    { font-family: var(--ff-t); font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); }
+.cd-l    { font-family: var(--ff-t); font-size: 10px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); }
 .cd-dot  { font-family: var(--ff-d); font-size: 28px; color: var(--bluelt); align-self: flex-start; margin-top: 8px; animation: blink 1.5s ease-in-out infinite; }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .15; } }
 
 .hero-date-line {
   margin-top: 26px;
-  font-family: var(--ff-t); font-size: 12px;
+  font-family: var(--ff-t); font-size: 12px; font-weight: 900;
   letter-spacing: .18em; text-transform: uppercase; color: var(--textmid);
   animation: fadeUp .8s .82s ease both;
 }
 
 .hero-ctas {
   display: flex; flex-wrap: wrap; gap: 10px;
+  font-weight: 900;
   margin-top: 36px;
   animation: fadeUp .8s .96s ease both;
 }
@@ -295,7 +296,7 @@ section    { position: relative; z-index: 2; }
 .sec-center { text-align: center; }
 
 .sec-label {
-  font-family: var(--ff-t); font-size: 9px;
+  font-family: var(--ff-t); font-size: 17px; font-weight: 900;
   letter-spacing: .3em; text-transform: uppercase;
   color: var(--blue); margin-bottom: 14px; display: block;
 }
@@ -306,7 +307,7 @@ section    { position: relative; z-index: 2; }
 .sec-title em { font-style: italic; color: var(--blue); }
 
 .sec-sub {
-  font-size: 14px; color: var(--textmid);
+  font-size: 20px; color: var(--textmid);
   margin-top: 10px; line-height: 1.7;
 }
 
@@ -327,7 +328,7 @@ section    { position: relative; z-index: 2; }
   display: inline-flex; align-items: center; gap: 8px;
   padding: 13px 26px; border-radius: 50px; border: none;
   background: linear-gradient(135deg, var(--blue), #526A7E);
-  font-family: var(--ff-t); font-size: 10px;
+  font-family: var(--ff-t); font-size: 15px; font-weight: 600;
   letter-spacing: .18em; text-transform: uppercase;
   color: #fff; cursor: none; text-decoration: none;
   transition: all .35s;
@@ -363,7 +364,7 @@ section    { position: relative; z-index: 2; }
 }
 .invite-orn  { font-size: 18px; margin-bottom: 18px; opacity: .45; }
 .invite-text {
-  font-family: var(--ff-b); font-size: clamp(14px, 2vw, 17px);
+  font-family: var(--ff-b); font-size: clamp(20px, 3vw, 30px);
   font-weight: 300; line-height: 1.95; color: var(--textmid);
 }
 .invite-text strong { color: var(--blue); font-weight: 400; }
@@ -411,8 +412,8 @@ section    { position: relative; z-index: 2; }
 }
 .cal-month {
   font-family: var(--ff-d);
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 25px;
+  font-weight: 600;
   font-style: italic;
   color: var(--blue);
   letter-spacing: .04em;
@@ -426,7 +427,8 @@ section    { position: relative; z-index: 2; }
 }
 .cal-weekdays span {
   font-family: var(--ff-t);
-  font-size: 9px;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--blue);
@@ -448,7 +450,7 @@ section    { position: relative; z-index: 2; }
   justify-content: center;
   font-family: var(--ff-b);
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 900;
   color: var(--textmid);
   border-radius: 50%;
   transition: background .2s;
@@ -459,7 +461,7 @@ section    { position: relative; z-index: 2; }
 .cal-day.marked {
   background: linear-gradient(135deg, var(--blue), #526A7E);
   color: #fff;
-  font-weight: 400;
+  font-weight: 900;
   box-shadow: 0 4px 16px rgba(110, 135, 156, .35);
   animation: calPulse 3s ease-in-out infinite;
 }
@@ -491,7 +493,8 @@ section    { position: relative; z-index: 2; }
 .cal-footer-day,
 .cal-footer-time {
   font-family: var(--ff-t);
-  font-size: 10px;
+  font-size: 15px;
+  font-weight: 900;
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--rose);
@@ -615,24 +618,124 @@ section    { position: relative; z-index: 2; }
 }
 
 /* ════════════════════════════════════════
-   WISHES
+   WISHES SLIDER
 ════════════════════════════════════════ */
 #wishes-sec { background: linear-gradient(160deg, #EFE9E3 0%, #F8F6F2 100%); }
 
+.wishes-slider {
+  position: relative;
+  max-width: 480px;
+  margin: 40px auto 0;
+  overflow: hidden;
+}
+
+.wishes-track {
+  display: flex;
+  transition: transform .65s cubic-bezier(.77, 0, .18, 1);
+  will-change: transform;
+  align-items: stretch;
+}
+
+.wish-card {
+  flex: 0 0 100%;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glassborder);
+  border-radius: 24px;
+  padding: 32px 28px;
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(110, 135, 156, .1);
+  box-sizing: border-box;
+}
+.wish-card-icon {
+  font-size: 22px;
+  margin-bottom: 14px;
+  display: block;
+}
+.wish-card-text {
+  font-family: var(--ff-b);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.75;
+  margin-bottom: 18px;
+}
+.wish-card-name {
+  font-family: var(--ff-t);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* — Arrows — */
+.wishes-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--glassborder);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .25s, transform .25s;
+  z-index: 10;
+}
+.wishes-arrow svg { width: 16px; height: 16px; stroke: var(--blue); }
+.wishes-arrow:hover {
+  background: rgba(110, 135, 156, .18);
+  transform: translateY(-50%) scale(1.08);
+}
+.wishes-prev { left: -18px; }
+.wishes-next { right: -18px; }
+
+/* — Dots — */
+.wishes-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 18px;
+}
+.wishes-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--bluelt);
+  border: none;
+  cursor: pointer;
+  transition: background .3s, width .35s, border-radius .35s;
+  padding: 0;
+}
+.wishes-dot.active {
+  background: var(--blue);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* — Input form — */
 .wish-input-wrap {
-  max-width: 540px; margin: 36px auto 0;
-  display: flex; flex-direction: column; gap: 12px;
+  max-width: 480px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .wish-input-wrap input,
 .wish-input-wrap textarea {
   width: 100%;
   background: rgba(255, 255, 255, .55);
-  border: 1px solid var(--glassborder); border-radius: 12px;
+  border: 1px solid var(--glassborder);
+  border-radius: 12px;
   padding: 13px 16px;
-  font-family: var(--ff-b); font-size: 14px; color: var(--text);
-  outline: none; cursor: none;
+  font-family: var(--ff-b);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  cursor: text;
   transition: border-color .3s, box-shadow .3s;
-  appearance: none; resize: vertical;
+  resize: vertical;
 }
 .wish-input-wrap textarea { min-height: 90px; }
 .wish-input-wrap input:focus,
@@ -642,30 +745,13 @@ section    { position: relative; z-index: 2; }
 }
 .wish-input-wrap .btn-solid { align-self: center; }
 
-.wishes-feed {
-  max-width: 540px; margin: 32px auto 0;
-  display: flex; flex-direction: column; gap: 14px;
-}
-.wish-card {
-  background: var(--glass); backdrop-filter: blur(16px);
-  border: 1px solid var(--glassborder); border-radius: 16px;
-  padding: 20px 22px; text-align: left;
-  animation: fadeUp .5s ease;
-}
-.wish-card-name {
-  font-family: var(--ff-t); font-size: 9px;
-  letter-spacing: .2em; text-transform: uppercase;
-  color: var(--blue); margin-bottom: 6px;
-}
-.wish-card-text { font-size: 14px; color: var(--textmid); line-height: 1.7; }
-
 /* ════════════════════════════════════════
    RSVP
 ════════════════════════════════════════ */
 #rsvp-sec { background: linear-gradient(155deg, #E9E2DA 0%, #F8F6F2 100%); }
 
 .rsvp-form {
-  max-width: 540px; margin: 44px auto 0;
+  max-width: 540px; margin: 10px auto 0;
   background: var(--glass); backdrop-filter: blur(24px);
   border: 1px solid var(--glassborder); border-radius: 28px;
   padding: clamp(28px, 5vw, 52px);
@@ -674,7 +760,7 @@ section    { position: relative; z-index: 2; }
 .fg { margin-bottom: 18px; text-align: left; }
 .fg label {
   display: block;
-  font-family: var(--ff-t); font-size: 9px;
+  font-family: var(--ff-t); font-size: 15px; font-weight: 600;
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--blue); margin-bottom: 7px;
 }
@@ -684,7 +770,7 @@ section    { position: relative; z-index: 2; }
   background: rgba(255, 255, 255, .55);
   border: 1px solid var(--glassborder); border-radius: 12px;
   padding: 13px 16px;
-  font-family: var(--ff-b); font-size: 14px; color: var(--text);
+  font-family: var(--ff-b); font-size: 15px; color: var(--text);
   outline: none; cursor: none;
   transition: border-color .3s, box-shadow .3s;
   appearance: none;
@@ -705,7 +791,7 @@ section    { position: relative; z-index: 2; }
   padding: 11px 6px; border-radius: 10px;
   border: 1px solid var(--glassborder);
   background: rgba(255, 255, 255, .42);
-  font-family: var(--ff-t); font-size: 9px;
+  font-family: var(--ff-t); font-size: 12px; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--textmid); cursor: none; transition: all .3s; text-align: center;
 }
@@ -717,7 +803,7 @@ section    { position: relative; z-index: 2; }
 .btn-rsvp {
   width: 100%; padding: 14px; border: none; border-radius: 50px;
   background: linear-gradient(135deg, var(--blue), #526A7E);
-  font-family: var(--ff-t); font-size: 10px;
+  font-family: var(--ff-t); font-size: 15px;
   letter-spacing: .22em; text-transform: uppercase;
   color: #fff; cursor: none;
   box-shadow: 0 8px 28px rgba(110, 135, 156, .28);
@@ -844,10 +930,65 @@ footer {
     background: var(--glass);
     border-color: var(--glassborder);
     color: var(--text);
+    font-size: 12px;
+    font-weight: 900;
   }
 }
 
 
 @media (max-width: 420px) {
   .cd-dot { display: none; }
+}
+
+
+/* Skeleton loader для пожеланий */
+.wish-skeleton {
+  background: linear-gradient(90deg, var(--blueultra) 25%, rgba(255,255,255,.5) 50%, var(--blueultra) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+  height: 14px;
+  margin: 6px 0;
+  color: transparent !important;
+  min-width: 160px;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── RSVP Counter ── */
+.rsvp-counter {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glassborder);
+  border-radius: 20px;
+  padding: 20px 40px;
+  box-shadow: 0 8px 32px rgba(110, 135, 156, .1);
+}
+.rsvp-counter-num {
+  font-family: var(--ff-d);
+  font-size: clamp(42px, 8vw, 68px);
+  font-weight: 300;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--blue), #526A7E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.rsvp-counter-num.bump {
+  transform: scale(1.18);
+}
+.rsvp-counter-label {
+  font-family: var(--ff-t);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--textmid);
 }

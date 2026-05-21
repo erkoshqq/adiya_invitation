@@ -1,27 +1,17 @@
 // src/modules/wishes.js
-// Wishes are stored in-memory for now.
-// To persist: replace the `wishes` array with a fetch() to your backend / Google Sheets.
 
 import { getLang } from './lang.js'
 
-const SEED_WISHES = [
-  { name: 'Айгерім',   text: 'Адия, сен ең жақсы! Бақытты бол, ару қыз 🌸' },
-  { name: 'Дмитрий',   text: 'Поздравляем! Пусть новая жизнь будет полна радости и любви 💐' },
-]
+const SHEET_URL = import.meta.env.VITE_SHEET_URL
 
-let wishes = [...SEED_WISHES]
+const ICONS = ['🌸', '💐', '✨', '🤍', '🌿', '💫']
 
-function createCard({ name, text }) {
-  const card = document.createElement('div')
-  card.className = 'wish-card'
-  card.innerHTML = `
-    <p class="wish-card-name">${escHtml(name)}</p>
-    <p class="wish-card-text">${escHtml(text)}</p>
-  `
-  return card
-}
+let wishes  = []
+let current = 0
 
-function escHtml(str) {
+// ── Helpers ──────────────────────────────────────────────────────────
+
+function escHtml(str = '') {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -29,69 +19,164 @@ function escHtml(str) {
     .replace(/"/g, '&quot;')
 }
 
-function renderFeed(feed) {
-  feed.innerHTML = ''
-  ;[...wishes].reverse().forEach(w => feed.appendChild(createCard(w)))
+function buildCard(wish, index) {
+  const card = document.createElement('div')
+  card.className = 'wish-card'
+  card.innerHTML = `
+    <span class="wish-card-icon">${ICONS[index % ICONS.length]}</span>
+    <p class="wish-card-text">${escHtml(wish.text)}</p>
+    <p class="wish-card-name">${escHtml(wish.name)}</p>
+  `
+  return card
 }
 
-export function initWishes() {
-  const feed       = document.getElementById('wishes-feed')
-  const nameInput  = document.getElementById('wish-name')
-  const textInput  = document.getElementById('wish-text')
-  const submitBtn  = document.getElementById('wish-submit')
+// ── Slider ───────────────────────────────────────────────────────────
 
-  if (!feed || !nameInput || !textInput || !submitBtn) return
+function renderSlider(track, dotsWrap) {
+  track.innerHTML    = ''
+  dotsWrap.innerHTML = ''
 
-  renderFeed(feed)
+  if (!wishes.length) {
+    track.innerHTML = `<div class="wish-card wish-empty">
+      <span class="wish-card-icon">🌸</span>
+      <p class="wish-card-text" style="text-align:center;opacity:.5">
+        Бірінші болып тілек қалдырыңыз
+      </p>
+    </div>`
+    return
+  }
 
-  submitBtn.addEventListener('click', async () => {
+  wishes.forEach((w, i) => {
+    track.appendChild(buildCard(w, i))
+
+    const dot = document.createElement('button')
+    dot.className = 'wishes-dot' + (i === current ? ' active' : '')
+    dot.setAttribute('aria-label', `Пожелание ${i + 1}`)
+    dot.addEventListener('click', () => goTo(i, track, dotsWrap))
+    dotsWrap.appendChild(dot)
+  })
+
+  goTo(current, track, dotsWrap, true)
+}
+
+function goTo(index, track, dotsWrap, instant = false) {
+  if (!wishes.length) return
+  current = ((index % wishes.length) + wishes.length) % wishes.length
+
+  track.style.transition = instant ? 'none' : 'transform .65s cubic-bezier(.77,0,.18,1)'
+  track.style.transform  = `translateX(-${current * 100}%)`
+
+  dotsWrap.querySelectorAll('.wishes-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current)
+  })
+}
+
+// ── API ───────────────────────────────────────────────────────────────
+
+async function fetchWishes() {
+  try {
+    const res  = await fetch(`${SHEET_URL}?sheet=wishes`)
+    const data = await res.json()
+    // Фильтруем пустые строки, разворачиваем — новые сверху
+    wishes = data
+      .filter(w => w.name && w.text)
+      .reverse()
+  } catch (err) {
+    console.warn('Wishes fetch error:', err)
+    wishes = []
+  }
+}
+
+async function postWish(name, text) {
+  await fetch(SHEET_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ sheet: 'wishes', name, text }),
+  })
+}
+
+// ── Init ─────────────────────────────────────────────────────────────
+
+export async function initWishes() {
+  const track     = document.getElementById('wishes-track')
+  const dotsWrap  = document.getElementById('wishes-dots')
+  const prevBtn   = document.getElementById('wishes-prev')
+  const nextBtn   = document.getElementById('wishes-next')
+  const nameInput = document.getElementById('wish-name')
+  const textInput = document.getElementById('wish-text')
+  const submitBtn = document.getElementById('wish-submit')
+
+  if (!track) return
+
+  // Показываем скелетон пока грузим
+  track.innerHTML = `<div class="wish-card wish-loading">
+    <span class="wish-card-icon">✨</span>
+    <p class="wish-card-text wish-skeleton"></p>
+    <p class="wish-card-name wish-skeleton" style="width:80px"></p>
+  </div>`
+
+  await fetchWishes()
+  renderSlider(track, dotsWrap)
+
+  // Стрелки
+  prevBtn?.addEventListener('click', () => goTo(current - 1, track, dotsWrap))
+  nextBtn?.addEventListener('click', () => goTo(current + 1, track, dotsWrap))
+
+  // Свайп
+  let touchStartX = 0
+  track.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX
+  }, { passive: true })
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX
+    if (Math.abs(dx) < 40) return
+    dx < 0
+      ? goTo(current + 1, track, dotsWrap)
+      : goTo(current - 1, track, dotsWrap)
+  })
+
+  // Автоплей
+  setInterval(() => goTo(current + 1, track, dotsWrap), 5000)
+
+  // Отправка
+  submitBtn?.addEventListener('click', async () => {
     const name = nameInput.value.trim()
     const text = textInput.value.trim()
     const lang = getLang()
 
     if (!name || !text) {
-      nameInput.style.borderColor = !name ? 'var(--rose)' : ''
-      textInput.style.borderColor = !text ? 'var(--rose)' : ''
+      if (!name) nameInput.style.borderColor = 'var(--rose)'
+      if (!text) textInput.style.borderColor = 'var(--rose)'
       return
     }
 
     nameInput.style.borderColor = ''
     textInput.style.borderColor = ''
 
-    const wish = { name, text }
-    wishes.push(wish)
+    const span = submitBtn.querySelector('span')
+    const orig = span.textContent
+    span.textContent   = lang === 'kz' ? 'Жіберілуде…' : 'Отправляем…'
+    submitBtn.disabled = true
 
-    // ── Wire to backend here ──────────────────────────────────────────
-    // Example: Google Apps Script
-    //
-    // await fetch('YOUR_APPS_SCRIPT_URL', {
-    //   method: 'POST',
-    //   mode:   'no-cors',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ ...wish, timestamp: new Date().toISOString() }),
-    // })
-    // ─────────────────────────────────────────────────────────────────
+    // Оптимистично добавляем локально — не ждём ответа сервера
+    wishes.unshift({ name, text })
+    current = 0
+    renderSlider(track, dotsWrap)
 
-    renderFeed(feed)
+    // Отправляем в фоне
+    postWish(name, text).catch(console.warn)
 
     nameInput.value = ''
     textInput.value = ''
 
-    // Scroll to the new wish
-    feed.firstChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-
-    // Brief button feedback
-    const span = submitBtn.querySelector('span')
-    const original = span.textContent
-    span.textContent = lang === 'kz' ? '✓ Жіберілді!' : '✓ Отправлено!'
-    submitBtn.disabled = true
+    span.textContent   = lang === 'kz' ? '✓ Жіберілді!' : '✓ Отправлено!'
     setTimeout(() => {
-      span.textContent   = original
+      span.textContent   = orig
       submitBtn.disabled = false
     }, 2000)
   })
 
-  // Clear red border on type
-  nameInput.addEventListener('input', () => { nameInput.style.borderColor = '' })
-  textInput.addEventListener('input', () => { textInput.style.borderColor = '' })
+  nameInput?.addEventListener('input', () => { nameInput.style.borderColor = '' })
+  textInput?.addEventListener('input', () => { textInput.style.borderColor = '' })
 }
